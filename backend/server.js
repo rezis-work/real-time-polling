@@ -9,7 +9,7 @@ const getMsgs = () => Array.from(msg).reverse();
 
 // გამოიყენე აქვე, ეს მხოლოდ სერვერს გადასცემს მინიჭებული შეტყობინება
 msg.push({
-  user: "brian",
+  user: "Anar",
   text: "hi",
   time: Date.now(),
 });
@@ -21,13 +21,23 @@ app.use(bodyParser.json());
 app.use(express.static("frontend"));
 
 app.get("/poll", function (req, res) {
-  // გამოიყენე getMsgs რომ მისამართოს შეტყობინებები
-  // დაწერე კოდი აქვე
+  res.status(Math.random() > 0.5 ? 200 : 500).json({
+    msg: getMsgs(),
+  });
 });
 
 app.post("/poll", function (req, res) {
-  // დაამატე ახალი შეტყობინება სერვერზე
-  // დაწერე კოდი აქვე
+  const { user, text } = req.body;
+
+  msg.push({
+    user,
+    text,
+    time: Date.now(),
+  });
+
+  res.json({
+    status: "ok",
+  });
 });
 
 // start the server
